@@ -1,7 +1,8 @@
 name: hexcolorname
 description: Flutter Package to convert color hex code to color name
-version: 0.0.1
-homepage: https://everycolorname.herokuapp.com/colorbyhex/FFFFFF
+version: 0.0.2
+homepage: https://github.com/kv0871916/hexcolorname
+repository: https://github.com/kv0871916/hexcolorname
 
 environment:
   sdk: ">=2.16.0 <3.0.0"

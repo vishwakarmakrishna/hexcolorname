@@ -1,3 +1,7 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+Color Code returns color name
+
+## 0.0.2
+
+Color Code Text Widget
