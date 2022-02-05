@@ -1,6 +1,6 @@
 name: hexcolorname
 description: Flutter Package to convert color hex code to color name
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/kv0871916/hexcolorname
 repository: https://github.com/kv0871916/hexcolorname
 

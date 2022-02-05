@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_if_null_operators
+
 library hexcolorname;
 
 import 'package:flutter/material.dart';
@@ -5,7 +7,11 @@ import 'package:http/http.dart' as http;
 
 import 'model/colorName.dart';
 
+enum ColorMode { invertedcolor, complementarycolor, textinvert }
+
 class ColorCodeName extends StatelessWidget {
+  static List<ColorNameModel> colorNameModel = [];
+  final ColorMode mode;
   final String hexColor;
   final Widget? loading;
   final Widget? error;
@@ -24,6 +30,7 @@ class ColorCodeName extends StatelessWidget {
   const ColorCodeName({
     Key? key,
     required this.hexColor,
+    this.mode = ColorMode.complementarycolor,
     this.loading,
     this.error,
     this.style,
@@ -47,7 +54,7 @@ class ColorCodeName extends StatelessWidget {
       Uri.parse("https://everycolorname.herokuapp.com/colorbyhex/$colorcode"),
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
-      final colorNameModel = colorNameModelFromJson(response.body);
+      colorNameModel = colorNameModelFromJson(response.body);
 
       return colorNameModel[0].name;
     } else {
@@ -61,10 +68,27 @@ class ColorCodeName extends StatelessWidget {
       future: hexIntoName(hexColor),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          snapshot.data.toString();
           return Text(
             snapshot.data.toString(),
-            style: style,
+            style: style != null
+                ? style
+                : (mode == ColorMode.textinvert)
+                    ? TextStyle(
+                        color:
+                            colorNameModel[0].textinvert.toString() == "000000"
+                                ? Colors.black
+                                : Colors.white)
+                    : (mode == ColorMode.invertedcolor)
+                        ? TextStyle(
+                            color: Color(int.parse("0xFF" +
+                                colorNameModel[0].invertedcolor.toString())))
+                        : (mode == ColorMode.complementarycolor)
+                            ? TextStyle(
+                                color: Color(int.parse("0xFF" +
+                                    colorNameModel[0]
+                                        .complementarycolor
+                                        .toString())))
+                            : style,
             strutStyle: strutStyle,
             textAlign: textAlign,
             textDirection: textDirection,

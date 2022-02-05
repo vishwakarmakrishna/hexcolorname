@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final colorNameModel = colorNameModelFromJson(jsonString);
+
 import 'dart:convert';
 
 List<ColorNameModel> colorNameModelFromJson(String str) =>
@@ -10,19 +14,31 @@ String colorNameModelToJson(List<ColorNameModel> data) =>
 class ColorNameModel {
   ColorNameModel({
     required this.name,
+    required this.textinvert,
     required this.hexcode,
+    required this.complementarycolor,
+    required this.invertedcolor,
   });
 
   String name;
+  String textinvert;
   String hexcode;
+  String complementarycolor;
+  String invertedcolor;
 
   factory ColorNameModel.fromJson(Map<String, dynamic> json) => ColorNameModel(
         name: json["name"],
+        textinvert: json["textinvert"],
         hexcode: json["hexcode"],
+        complementarycolor: json["complementarycolor"],
+        invertedcolor: json["invertedcolor"],
       );
 
   Map<String, dynamic> toJson() => {
         "name": name,
+        "textinvert": textinvert,
         "hexcode": hexcode,
+        "complementarycolor": complementarycolor,
+        "invertedcolor": invertedcolor,
       };
 }

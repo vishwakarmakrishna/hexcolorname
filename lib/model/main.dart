@@ -1,17 +1,3 @@
-# hexcolorname
-
-[![pub package](https://img.shields.io/pub/v/hexcolorname.svg)](https://pub.dev/packages/hexcolorname)
-
-A Flutter plugin for Color's Name by Color Code. Supports
-iOS, Android, web, Windows, macOS, and Linux.
-
-## Usage
-
-To use this plugin, add `hexcolorname` as a [dependency in your pubspec.yaml file](https://flutter.dev/platform-plugins/).
-
-### Example
-
-``` dart
 import 'package:flutter/material.dart';
 import 'package:hexcolorname/hexcolorname.dart';
 
@@ -31,7 +17,3 @@ void main() => runApp(
         ),
       ),
     );
-
-```
-
-See the example app for more complex examples.
