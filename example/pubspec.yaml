@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   hexcolorname:
-    path: "../.."
+    path: "../"
 
 flutter:
   uses-material-design: true
