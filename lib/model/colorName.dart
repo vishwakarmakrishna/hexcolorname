@@ -1,7 +1,4 @@
-// To parse this JSON data, do
-//
-//     final colorNameModel = colorNameModelFromJson(jsonString);
-
+// ignore_for_file: file_names
 import 'dart:convert';
 
 List<ColorNameModel> colorNameModelFromJson(String str) =>

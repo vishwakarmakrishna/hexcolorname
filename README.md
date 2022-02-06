@@ -12,8 +12,6 @@ To use this plugin, add `hexcolorname` as a [dependency in your pubspec.yaml fil
 ### Example
 
 ``` dart
-import 'package:flutter/material.dart';
-import 'package:hexcolorname/hexcolorname.dart';
 
 ///
 /// complementary Mode will return the complementary color of the given color #C2ABA2

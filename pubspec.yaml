@@ -1,5 +1,5 @@
 name: hexcolorname
-description: Flutter Package to convert color hex code to color name
+description: A Flutter plugin for Color's Name by Color Code. Supports iOS, Android, web, Windows, macOS, and Linux.
 version: 0.0.4
 homepage: https://github.com/kv0871916/hexcolorname
 repository: https://github.com/kv0871916/hexcolorname

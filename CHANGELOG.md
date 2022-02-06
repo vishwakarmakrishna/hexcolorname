@@ -13,3 +13,7 @@ Color Code Text with Complementary & Inverted color
 ## 0.0.4
 
 Color Code Text with Complementary & Inverted , TextInteverted  , Default styles with examples
+
+## 0.0.5
+
+Color Code Text with Complementary & Inverted , TextInteverted  , Default styles with examples & small Changes
