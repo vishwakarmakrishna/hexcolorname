@@ -25,10 +25,10 @@ class ColorNameModel {
 
   factory ColorNameModel.fromJson(Map<String, dynamic> json) => ColorNameModel(
         name: json["name"],
-        textinvert: json["textinvert"],
+        textinvert: json["textinvert"].toString().toUpperCase(),
         hexcode: json["hexcode"],
-        complementarycolor: json["complementarycolor"],
-        invertedcolor: json["invertedcolor"],
+        complementarycolor: json["complementarycolor"].toString().toUpperCase(),
+        invertedcolor: json["invertedcolor"].toString().toUpperCase(),
       );
 
   Map<String, dynamic> toJson() => {
