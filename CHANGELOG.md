@@ -21,3 +21,7 @@ Color Code Text with Complementary & Inverted , TextInteverted  , Default styles
 ## 0.0.6
 
 Color Code Text with Complementary & Inverted , TextInteverted  , Default styles with examples & small bug Changes
+
+## 0.0.7
+
+Fix Cors issue for web
