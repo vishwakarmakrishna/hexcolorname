@@ -3,108 +3,87 @@
 library hexcolorname;
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
+import 'extras.dart';
 import 'model/colorName.dart';
 
-enum ColorMode { invertedcolor, complementarycolor, textinvert }
-
-class ColorCodeName extends StatelessWidget {
-  static List<ColorNameModel> colorNameModel = [];
-  final ColorMode mode;
+class HexColorText extends StatefulWidget {
+  const HexColorText(
+      {Key? key,
+      required this.hexColor,
+      this.builder,
+      this.errorbuilder,
+      this.mode = ColorMode.complementarycolor,
+      this.loading})
+      : super(key: key);
   final String hexColor;
+  final Widget Function(BuildContext, String)? builder;
+  final Widget Function(BuildContext, String)? errorbuilder;
   final Widget? loading;
-  final Widget? error;
-  final TextStyle? style;
-  final StrutStyle? strutStyle;
-  final TextAlign? textAlign;
-  final TextDirection? textDirection;
-  final Locale? locale;
-  final bool? softWrap;
-  final TextOverflow? overflow;
-  final double? textScaleFactor;
-  final int? maxLines;
-  final String? semanticsLabel;
-  final TextWidthBasis? textWidthBasis;
-  final TextHeightBehavior? textHeightBehavior;
-  const ColorCodeName({
-    Key? key,
-    required this.hexColor,
-    this.mode = ColorMode.complementarycolor,
-    this.loading,
-    this.error,
-    this.style,
-    this.strutStyle,
-    this.textAlign,
-    this.textDirection,
-    this.locale,
-    this.softWrap,
-    this.overflow,
-    this.textScaleFactor,
-    this.maxLines,
-    this.semanticsLabel,
-    this.textWidthBasis,
-    this.textHeightBehavior,
-  }) : super(key: key);
+  final ColorMode mode;
 
-  static Future<String> hexIntoName(String value) async {
-    final colorcode = value.replaceAll("#", "").replaceAll("0xFF", "");
+  @override
+  State<HexColorText> createState() => _HexColorTextState();
+}
 
-    var response = await http.get(
-      Uri.parse("https://everycolorname.herokuapp.com/colorbyhex/$colorcode"),
-    );
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      colorNameModel = colorNameModelFromJson(response.body);
-
-      return colorNameModel[0].name;
-    } else {
-      return "";
-    }
+class _HexColorTextState extends State<HexColorText> {
+  late Future<List<ColorNameModel>?> _hexIntoName;
+  @override
+  void initState() {
+    super.initState();
+    _hexIntoName = hexIntoColorModel(widget.hexColor);
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: hexIntoName(hexColor),
+      future: _hexIntoName,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Text(
-            snapshot.data.toString(),
-            style: style != null
-                ? style
-                : (mode == ColorMode.textinvert)
-                    ? TextStyle(
-                        color:
-                            colorNameModel[0].textinvert.toString() == "000000"
-                                ? Colors.black
-                                : Colors.white)
-                    : (mode == ColorMode.invertedcolor)
-                        ? TextStyle(
-                            color: Color(int.parse("0xFF" +
-                                colorNameModel[0].invertedcolor.toString())))
-                        : (mode == ColorMode.complementarycolor)
-                            ? TextStyle(
-                                color: Color(int.parse("0xFF" +
-                                    colorNameModel[0]
-                                        .complementarycolor
-                                        .toString())))
-                            : style,
-            strutStyle: strutStyle,
-            textAlign: textAlign,
-            textDirection: textDirection,
-            locale: locale,
-            softWrap: softWrap,
-            overflow: overflow,
-            textScaleFactor: textScaleFactor,
-            maxLines: maxLines,
-            semanticsLabel: semanticsLabel,
-            textWidthBasis: textWidthBasis,
-            textHeightBehavior: textHeightBehavior,
-          );
-        } else if (snapshot.hasError) {
-          return error ?? const Text("Error");
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            if (widget.errorbuilder != null) {
+              return widget.errorbuilder!(context, snapshot.error.toString());
+            } else {
+              return Center(
+                child: Text(
+                  '${snapshot.error} occurred',
+                  style: const TextStyle(fontSize: 18),
+                ),
+              );
+            }
+          } else if (snapshot.hasData) {
+            final data = snapshot.data;
+
+            if (data is List<ColorNameModel> && data.isNotEmpty) {
+              return Center(
+                child: Builder(builder: (context) {
+                  if (widget.builder != null) {
+                    return widget.builder!(context, data.first.name);
+                  } else {
+                    return Text(
+                      data.first.name,
+                      style: TextStyle(
+                          color: getColorMode(data.first, mode: widget.mode)),
+                    );
+                  }
+                }),
+              );
+            } else {
+              return const Center(
+                child: Text(
+                  'No data found',
+                  style: TextStyle(fontSize: 18),
+                ),
+              );
+            }
+          }
+        }
+        if (widget.loading != null) {
+          return widget.loading!;
         } else {
-          return loading ?? const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
       },
     );

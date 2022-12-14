@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolorname/extras.dart';
 import 'package:hexcolorname/hexcolorname.dart';
 
 ///
@@ -12,8 +13,11 @@ void main() => runApp(
       const MaterialApp(
         home: Material(
           child: Center(
-              child: ColorCodeName(
-                  mode: ColorMode.complementarycolor, hexColor: _color)),
+            child: HexColorText(
+              mode: ColorMode.complementarycolor,
+              hexColor: _color,
+            ),
+          ),
         ),
       ),
     );

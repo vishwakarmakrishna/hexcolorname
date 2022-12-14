@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolorname/extras.dart';
 import 'package:hexcolorname/hexcolorname.dart';
 
 ///
@@ -25,31 +26,27 @@ void main() => runApp(
                 ),
               ),
               Center(
-                child: ColorCodeName(
-                    style: TextStyle(
-                        //customize your text style here
-                        ),
-                    hexColor: _colorString),
+                child: HexColorText(hexColor: _colorString),
               ),
               Center(
-                child: Text("Complementary color Mode of ColorCodeName "),
+                child: Text("Complementary color Mode of HexColorText "),
               ),
               Center(
-                child: ColorCodeName(
+                child: HexColorText(
                     mode: ColorMode.complementarycolor, hexColor: _colorString),
               ),
               Center(
-                child: Text("Inverted color Mode of ColorCodeName"),
+                child: Text("Inverted color Mode of HexColorText"),
               ),
               Center(
-                child: ColorCodeName(
+                child: HexColorText(
                     mode: ColorMode.invertedcolor, hexColor: _colorString),
               ),
               Center(
-                child: Text("TextInvert color Mode of ColorCodeName "),
+                child: Text("TextInvert color Mode of HexColorText "),
               ),
               Center(
-                child: ColorCodeName(
+                child: HexColorText(
                     mode: ColorMode.textinvert, hexColor: _colorString),
               ),
             ],
