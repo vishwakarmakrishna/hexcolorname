@@ -25,3 +25,7 @@ Color Code Text with Complementary & Inverted , TextInteverted  , Default styles
 ## 0.0.7
 
 Fix Cors issue for web
+
+## 0.0.8
+
+Added Code Generation

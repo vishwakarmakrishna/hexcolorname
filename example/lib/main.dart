@@ -1,56 +1,141 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolorname/extras.dart';
 import 'package:hexcolorname/hexcolorname.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 ///
 /// complementary Mode will return the complementary color of the given color #C2ABA2
 /// inverted Mode will return the inverted color of the given color #5D463D
 /// textinverted Mode will return the Black / White color of the given color #000000 for eg. for light color with will return black and for dark color will return white
 ///
-const yourColor = "A2B9C2";
-const String _colorString =
-    '0xFF$yourColor'; // or '#A2B9C2'.replaceAll('#', '0xFF');
-final Color _color = Color(int.parse(_colorString));
-void main() => runApp(
-      MaterialApp(
-        home: Material(
-          color: _color,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Center(
-                child: Text(
-                  "Style Mode of ColorCodeName:\n${(_color)}\nCadet Blue (Crayola)",
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Center(
-                child: HexColorText(hexColor: _colorString),
-              ),
-              Center(
-                child: Text("Complementary color Mode of HexColorText "),
-              ),
-              Center(
-                child: HexColorText(
-                    mode: ColorMode.complementarycolor, hexColor: _colorString),
-              ),
-              Center(
-                child: Text("Inverted color Mode of HexColorText"),
-              ),
-              Center(
-                child: HexColorText(
-                    mode: ColorMode.invertedcolor, hexColor: _colorString),
-              ),
-              Center(
-                child: Text("TextInvert color Mode of HexColorText "),
-              ),
-              Center(
-                child: HexColorText(
-                    mode: ColorMode.textinvert, hexColor: _colorString),
-              ),
-            ],
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: ColorModeDemo(),
+    );
+  }
+}
+
+class ColorModeDemo extends StatefulWidget {
+  @override
+  _ColorModeDemoState createState() => _ColorModeDemoState();
+}
+
+class _ColorModeDemoState extends State<ColorModeDemo> {
+  final TextEditingController _controller =
+      TextEditingController(text: "A2B9C2");
+
+  void _openColorPicker() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Pick a color'),
+          content: SingleChildScrollView(
+            child: ColorPicker(
+              pickerColor: _controller.text.toColor(),
+              onColorChanged: (Color color) {
+                setState(() {
+                  _controller.text = color.hexWithoutPrefix;
+                });
+              },
+              pickerAreaHeightPercent: 0.8,
+            ),
           ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Color Mode Demo'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextFormField(
+              controller: _controller,
+              onChanged: (_) {
+                if (_.length == 6 || _.length == 3) {
+                  setState(() {});
+                }
+              },
+              decoration: InputDecoration(
+                  labelText: 'Enter color',
+                  suffixIcon: IconButton(
+                    onPressed: _openColorPicker,
+                    icon: Icon(Icons.pending),
+                  )),
+            ),
+            SizedBox(height: 20),
+            ListTile(
+              title: Text(
+                "Style Mode of HexColorText: \n${(_controller.text.hexWithoutPrefix)}",
+                textAlign: TextAlign.center,
+              ),
+              subtitle: HexColorText(
+                  key: UniqueKey(),
+                  hexColor: _controller.text.removeHexPrefix()),
+            ),
+            SizedBox(height: 20),
+            ListTile(
+              title: Text(
+                "Complementary color Mode of HexColorText ",
+                textAlign: TextAlign.center,
+              ),
+              subtitle: HexColorText(
+                  key: UniqueKey(),
+                  mode: ColorMode.complementarycolor,
+                  hexColor: _controller.text),
+            ),
+            SizedBox(height: 20),
+            ListTile(
+              title: Text(
+                "Invertedcolor color Mode of HexColorText ",
+                textAlign: TextAlign.center,
+              ),
+              subtitle: HexColorText(
+                  key: UniqueKey(),
+                  mode: ColorMode.invertedcolor,
+                  hexColor: _controller.text),
+            ),
+            SizedBox(height: 20),
+            ListTile(
+              title: Text(
+                "Textcolor color Mode of HexColorText ",
+                textAlign: TextAlign.center,
+              ),
+              subtitle: HexColorText(
+                  key: UniqueKey(),
+                  mode: ColorMode.textinvert,
+                  hexColor: _controller.text),
+            ),
+            SizedBox(height: 20),
+          ],
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+}
