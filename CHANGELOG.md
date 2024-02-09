@@ -29,3 +29,7 @@ Fix Cors issue for web
 ## 0.0.8
 
 Added Code Generation
+
+## 0.0.9
+
+Updated Example app
